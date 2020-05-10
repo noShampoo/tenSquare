@@ -65,3 +65,5 @@ hs_err_pid*
 .idea/uiDesigner.xml
 .idea/vcs.xml
 tensquare.iml
+tensquare_base/target
+tensquare_common/target
