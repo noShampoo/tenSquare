@@ -8,6 +8,7 @@ import entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,9 @@ public class SpitController {
 
     @Autowired
     private SpitService spitService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 查找所有吐槽
@@ -101,7 +105,15 @@ public class SpitController {
      */
     @PutMapping("/thumbup/{spitId}")
     public Result updateThumbup(@PathVariable("spitId") String spitId) {
+        //由于登录还没有写，所以这里把用户id写死
+        String userId = "0001";
+        //判断是否有内容，也就是是否点过赞
+        if (redisTemplate.opsForValue().get("thumbup" + userId) != null) {
+            return new Result(false, StatusCode.REPERROR, "不能重复点赞");
+        }
         spitService.updateThumbup(spitId);
+        //点完赞以后要将点赞记录放进redis中，value置为1表示记录点过赞
+        redisTemplate.opsForValue().set("thumbup" + userId, 1);
         return new Result(true, StatusCode.OK, "点赞成功");
     }
 }
