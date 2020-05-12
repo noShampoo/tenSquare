@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.IdWorker;
@@ -21,6 +25,10 @@ public class SpitService {
 
     @Autowired
     private IdWorker idWorker;
+
+    //使用mongo原生命令需要的
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     /**
      * 查询所有
@@ -87,9 +95,17 @@ public class SpitService {
      * 吐槽点赞
      */
     public void updateThumbup(String id) {
-        Spit spit = spitDao.findById(id).get();
-        spit.setThumbup(spit.getThumbup() == null ? 0 : spit.getThumbup() + 1);
-        spitDao.save(spit);
+        //方法一，存在效率不高的问题
+//        Spit spit = spitDao.findById(id).get();
+//        spit.setThumbup(spit.getThumbup() == null ? 0 : spit.getThumbup() + 1);
+//        spitDao.save(spit);
+
+        //方法二、提高效率使用原生mongo命令更新:db.spit.update({"id":1}, {$inc:{"thumbup":NumberInt(1)}})
+        Query query = new Query();
+        Update update = new Update();
+        query.addCriteria(Criteria.where("_id").is(id));
+        update.inc("thumbup", 1);
+        mongoTemplate.updateFirst(query, update, "spit");
     }
 
 }
