@@ -3,6 +3,7 @@ package com.tensquare.qa.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.tensquare.qa.client.BaseClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,23 @@ public class ProblemController {
 
     @Autowired
     private ProblemService problemService;
+
+    @Autowired
+    private BaseClient baseClient;
+
+    /**
+     * 测试五福调用Base模块的 根据Id查询
+     * @param labelId
+     * @return
+     */
+    @RequestMapping(value = "/label/{labelId}", method = RequestMethod.GET)
+    public Result findByIdOfBase(@PathVariable("labelId") String labelId) {
+        Result baseClientById = baseClient.findById(labelId);
+        return baseClientById;
+    }
+
+
+
 
     /**
      * 分页查询最新回复的问题
