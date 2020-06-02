@@ -44,6 +44,22 @@ public class AdminService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	/**
+	 * 登录的service
+	 * @param admin
+	 * @return
+	 */
+	public Admin login(Admin admin) {
+		//现根据用户名查询对象
+		Admin byLoginname = adminDao.findByLoginname(admin.getLoginname());
+		//然后用其密码于需要登录的用户进行密码匹配
+		if (byLoginname != null && bCryptPasswordEncoder.matches(admin.getPassword(), byLoginname.getPassword())) {
+			return byLoginname;
+		}
+		//登录失败
+		return null;
+	}
+
+	/**
 	 * 查询全部列表
 	 * @return
 	 */
