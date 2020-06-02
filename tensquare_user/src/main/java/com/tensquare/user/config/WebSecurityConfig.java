@@ -20,7 +20,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
          *antMatchers("/**")表示拦截的路径
          * permitAll表示任何权限都可以
          *
+         *anyRequest()表示任意的请求.authenticated()表示认证后才能访问
          *
+         * .and().csrf().disable()固定写法，表示csrf拦截失效
          */
         http
                 .authorizeRequests()
