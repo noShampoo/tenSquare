@@ -18,3 +18,8 @@ eureka:
       defaultZone: http://127.0.0.1:6868/eureka/
   instance:
     prefer-ip-address: true   #解决跨域
+
+jwt:
+  config:
+    key: noShampoo
+    ttl: 3600000

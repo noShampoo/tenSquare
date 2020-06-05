@@ -6,6 +6,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import util.IdWorker;
+import util.JwtUtil;
+
 @SpringBootApplication
 @EnableEurekaClient
 /**
@@ -22,6 +24,11 @@ public class QaApplication {
 	@Bean
 	public IdWorker idWorkker(){
 		return new IdWorker(1, 1);
+	}
+
+	@Bean
+	public JwtUtil jwtUtil() {
+		return new JwtUtil();
 	}
 	
 }

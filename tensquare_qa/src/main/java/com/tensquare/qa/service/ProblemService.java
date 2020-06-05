@@ -11,7 +11,9 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.http.HttpServletRequest;
 
+import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +40,9 @@ public class ProblemService {
 	
 	@Autowired
 	private IdWorker idWorker;
+
+	@Autowired
+	private HttpServletRequest request;
 
 	/**
 	 * 查询最新回复
@@ -119,6 +124,10 @@ public class ProblemService {
 	 */
 	public void add(Problem problem) {
 		problem.setId( idWorker.nextId()+"" );
+		String token;
+		if ((token = (String) request.getAttribute("user_claims")) == null || "".equals(token)) {
+			throw new RuntimeException("权限不足");
+		}
 		problemDao.save(problem);
 	}
 
