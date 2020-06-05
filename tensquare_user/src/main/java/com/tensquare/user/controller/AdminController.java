@@ -1,5 +1,6 @@
 package com.tensquare.user.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import com.tensquare.user.service.AdminService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import util.JwtUtil;
 
 /**
  * 控制器层
@@ -27,6 +29,9 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
 	/**
 	 * 登录
 	 * @param admin
@@ -37,8 +42,13 @@ public class AdminController {
 		admin = adminService.login(admin);
 		if (admin == null) return new Result(false, StatusCode.ERROR, "登录出错");
 		//需要继续添加前后段通话，使用JWT
+        //生成令牌
+        String token = jwtUtil.createJWT(admin.getId(), admin.getLoginname(), "admin");
+        Map<String, Object> map = new HashMap<>();
+        map.put("token", token);
+        map.put("role", "admin");
 
-		return new Result(true, StatusCode.OK, "登录成功");
+		return new Result(true, StatusCode.OK, "登录成功", map);
 	}
 
     /**

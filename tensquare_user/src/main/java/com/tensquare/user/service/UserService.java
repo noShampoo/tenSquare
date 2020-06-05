@@ -10,6 +10,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -26,6 +27,7 @@ import util.IdWorker;
 
 import com.tensquare.user.dao.UserDao;
 import com.tensquare.user.pojo.User;
+import util.JwtUtil;
 
 /**
  * 服务层
@@ -50,6 +52,12 @@ public class UserService {
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@Autowired
+	private HttpServletRequest request;
+
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	/**
 	 * login
@@ -134,10 +142,31 @@ public class UserService {
 	}
 
 	/**
-	 * 删除
+	 * 删除   必须有admin角色才能进行删除
 	 * @param id
 	 */
 	public void deleteById(String id) {
+//		String header = request.getHeader("Authorization");
+//		if (header == null || "".equals(header)) {
+//			throw new RuntimeException("权限不足");
+//		}
+//		if (!header.startsWith("Bearer ")) {
+//			throw new RuntimeException("权限不足");
+//		}
+//		String token = header.substring(7);
+//		try {
+//			String roles = (String) jwtUtil.parseJWT(token).get("roles");
+//			if (roles == null || !roles.equals("admin")) {
+//				throw new RuntimeException("权限不足");
+//			}
+//		} catch (Exception e) {
+//			throw new RuntimeException("权限不足");
+//		}
+		String token;
+		if ((token = (String) request.getAttribute("admin_claims")) == null || "".equals(token)) {
+			throw new RuntimeException("权限不足");
+		}
+
 		userDao.deleteById(id);
 	}
 
