@@ -2,6 +2,7 @@ package com.tensquare.frinend.service;
 
 
 import com.tensquare.frinend.dao.FriendDao;
+import com.tensquare.frinend.dao.NoFriendDao;
 import com.tensquare.frinend.pojo.Friend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ public class FriendService {
 
     @Autowired
     private FriendDao friendDao;
+
+    @Autowired
+    private NoFriendService noFriendService;
 
     /**
      * 添加好友
@@ -37,5 +41,14 @@ public class FriendService {
             friendDao.updateIslike("1", friendid, userid);
         }
         return 1;
+    }
+
+    public void deleteFriend(String userid, String friendid) {
+        //1.删除userid到friend的记录
+        friendDao.deleteFriend(userid, friendid);
+        //2.更新friend到user的islike为0
+        friendDao.updateIslike("0", friendid, userid);
+        //3.将userid到friendid的数据添加到非好友中
+        noFriendService.addNoFriend(userid, friendid);
     }
 }

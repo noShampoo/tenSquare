@@ -3,7 +3,11 @@ package com.tensquare.frinend.service;
 import com.tensquare.frinend.dao.NoFriendDao;
 import com.tensquare.frinend.pojo.NoFriend;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
+@Transactional
 public class NoFriendService {
 
     @Autowired

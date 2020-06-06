@@ -1,5 +1,6 @@
 package com.tensquare.frinend.controller;
 
+import com.tensquare.frinend.client.UserClient;
 import com.tensquare.frinend.pojo.NoFriend;
 import com.tensquare.frinend.service.FriendService;
 import com.tensquare.frinend.service.NoFriendService;
@@ -7,10 +8,8 @@ import entity.Result;
 import entity.StatusCode;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -25,6 +24,9 @@ public class FriendController {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private UserClient userClient;
 
     @PutMapping("/like/{friendid}/{type}")
     public Result addFriend(@PathVariable("friendid") String friendid,
@@ -43,6 +45,7 @@ public class FriendController {
             if (flag == 0) {
                 return new Result(false, StatusCode.ERROR, "嘿，ta已经是你的朋友了");
             }
+            userClient.updateFanscountAndFllowcount(1, userid, friendid);
             return new Result(true, StatusCode.OK, "现在ta是你的朋友了");
         } else if (type.equals("2")) {
             int flag = noFriendService.addNoFriend(userid, friendid);
@@ -58,5 +61,18 @@ public class FriendController {
             return new Result(false, StatusCode.ERROR, "参数错误");
         }
     }
+
+    @DeleteMapping("{friendid}")
+    public Result deleteFriend(@PathVariable("friendid") String friendid) {
+        Claims claims = (Claims) request.getAttribute("user_claims");
+        if (claims == null) {
+            return new Result(false, StatusCode.LOGINERROR, "非用户，无法完成操作");
+        }
+        String userid = claims.getId();
+        friendService.deleteFriend(userid, friendid);
+        userClient.updateFanscountAndFllowcount(-1, userid, friendid);
+        return new Result(true, StatusCode.OK, "删除好友成功");
+    }
+
 
 }
