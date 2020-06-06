@@ -4,4 +4,11 @@ spring:
   application:
     name: tensquare-sms
   rabbitmq:
-    host: 192.168.71.139
+    host: 39.101.211.49
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:6868/eureka/
+  instance:
+    prefer-ip-address: true

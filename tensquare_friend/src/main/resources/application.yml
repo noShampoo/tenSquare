@@ -1,3 +1,27 @@
+#server:
+#  port: 9010
+#spring:
+#  application:
+#    name: tensquare-friend
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://192.168.71.139:3306/tensquare_friend?characterEncoding=utf‐8
+#    username: root
+#    password: root
+#  jpa:
+#    database: mysql
+#    show-sql: true
+#  jwt:
+#    config:
+#      key: noShampoo
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://127.0.0.1:6868/eureka/
+#  instance:
+#    prefer-ip-address: true   #解决跨域
+
+
 server:
   port: 9010
 spring:
@@ -5,18 +29,19 @@ spring:
     name: tensquare-friend
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.71.139:3306/tensquare_friend?characterEncoding=utf‐8
+    url: jdbc:mysql://39.101.211.49:3306/tensquare_friend?characterEncoding=UTF8
     username: root
-    password: root
+    password: 123456
   jpa:
     database: mysql
     show-sql: true
-  jwt:
-    config:
-      key: noShampoo
+jwt:
+  config:
+    key: noShampoo
+    ttl: 3600000
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:6868/eureka/
+      defaultZone: http://127.0.0.1:6868/euraka/
   instance:
-    prefer-ip-address: true   #解决跨域
+    prefer-ip-address: true

@@ -10,9 +10,9 @@ import util.IdWorker;
 import util.JwtUtil;
 
 @SpringBootApplication
+@EnableEurekaClient
 @EnableFeignClients
 @EnableDiscoveryClient
-@EnableEurekaClient
 public class FriendApplication {
     public static void main(String[] args) {
         SpringApplication.run(FriendApplication.class);

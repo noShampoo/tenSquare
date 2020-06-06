@@ -1,13 +1,33 @@
-server: 
+#server:
+#  port: 9005
+#spring:
+#  application:
+#    name: tensquare-gathering #指定服务名
+#  datasource:
+#    driverClassName: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://192.168.71.139:3306/tensquare_gathering?characterEncoding=UTF8
+#    username: root
+#    password: root
+#  jpa:
+#    database: mysql
+#    show-sql: true
+
+server:
   port: 9005
-spring: 
-  application:  
+spring:
+  application:
     name: tensquare-gathering #指定服务名
-  datasource:  
+  datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.71.139:3306/tensquare_gathering?characterEncoding=UTF8
+    url: jdbc:mysql://39.101.211.49:3306/tensquare_gathering?characterEncoding=UTF8
     username: root
-    password: root
-  jpa: 
+    password: 123456
+  jpa:
     database: mysql
     show-sql: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:6868/eureka/
+  instance:
+    prefer-ip-address: true

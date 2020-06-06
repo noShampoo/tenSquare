@@ -1,19 +1,39 @@
-server: 
+#server:
+#  port: 9004
+#spring:
+#  application:
+#    name: tensquare-article #指定服务名
+#  datasource:
+#    driverClassName: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://192.168.71.139:3306/tensquare_article?characterEncoding=UTF8
+#    username: root
+#    password: root
+#  jpa:
+#    database: mysql
+#    show-sql: true
+#
+#  redis:
+#    host: 192.168.71.139
+#
+
+server:
   port: 9004
-spring: 
-  application:  
+spring:
+  application:
     name: tensquare-article #指定服务名
-  datasource:  
+  datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.71.139:3306/tensquare_article?characterEncoding=UTF8
+    url: jdbc:mysql://39.101.211.49:3306/tensquare_article?characterEncoding=UTF8
     username: root
-    password: root
-  jpa: 
+    password: 123456
+  jpa:
     database: mysql
     show-sql: true
 
   redis:
-    host: 192.168.71.139
+    host: 39.101.211.49
+
+
 
 eureka:
   client:
