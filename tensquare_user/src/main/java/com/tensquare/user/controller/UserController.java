@@ -34,6 +34,21 @@ public class UserController {
 
 	@Autowired
 	private JwtUtil jwtUtil;
+
+	/**
+	 * 更新我的关注数，和我关注的人的粉丝数
+	 * @param count
+	 * @param userid
+	 * @param friendid
+	 */
+	@PutMapping("/updatefaf/{count}/{userid}/{friendid}")
+	public void updateFanscountAndFllowcount(@PathVariable("count") int count,
+											 @PathVariable("userid") String userid,
+											 @PathVariable("friendid") String friendid) {
+		userService.updateFanscountAndFllowcount(count, userid, friendid);
+	}
+
+
 	/**
 	 * 登录
 	 * @param user
