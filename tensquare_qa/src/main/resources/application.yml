@@ -33,6 +33,11 @@ eureka:
   instance:
     prefer-ip-address: true   #解决跨域
 
+feign:
+  hystrix:
+    enabled: true
+
+
 jwt:
   config:
     key: noShampoo
