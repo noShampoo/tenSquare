@@ -1,6 +1,8 @@
 package com.tensquare.frinend.controller;
 
+import com.tensquare.frinend.pojo.NoFriend;
 import com.tensquare.frinend.service.FriendService;
+import com.tensquare.frinend.service.NoFriendService;
 import entity.Result;
 import entity.StatusCode;
 import io.jsonwebtoken.Claims;
@@ -17,6 +19,9 @@ public class FriendController {
 
     @Autowired
     private FriendService friendService;
+
+    @Autowired
+    private NoFriendService noFriendService;
 
     @Autowired
     private HttpServletRequest request;
@@ -40,7 +45,7 @@ public class FriendController {
             }
             return new Result(true, StatusCode.OK, "现在ta是你的朋友了");
         } else if (type.equals("2")) {
-            int flag = 0;
+            int flag = noFriendService.addNoFriend(userid, friendid);
             //添加非朋友(黑名单)
 //            if (flag == 1) {
 //                return new Result(true, StatusCode.OK, "现在你们两个分手了哦");
